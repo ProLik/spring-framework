@@ -80,6 +80,7 @@ public class XmlValidationModeDetector {
 
 
 	/**
+	 * 自动检测验证模式
 	 * Detect the validation mode for the XML document in the supplied {@link InputStream}.
 	 * Note that the supplied {@link InputStream} is closed by this method before returning.
 	 * @param inputStream the InputStream to parse
@@ -95,13 +96,16 @@ public class XmlValidationModeDetector {
 			String content;
 			while ((content = reader.readLine()) != null) {
 				content = consumeCommentTokens(content);
+				//如果读取的行是空或是注释 跳过
 				if (this.inComment || !StringUtils.hasText(content)) {
 					continue;
 				}
+				//如果包含DOCTYPE  则是 DTD 不好含则是 XSD
 				if (hasDoctype(content)) {
 					isDtdValidated = true;
 					break;
 				}
+				//读取< 开始符号，验证模式一定是开始符号之前
 				if (hasOpeningTag(content)) {
 					// End of meaningful data...
 					break;

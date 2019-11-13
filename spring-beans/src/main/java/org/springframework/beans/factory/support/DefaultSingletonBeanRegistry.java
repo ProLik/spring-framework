@@ -61,6 +61,7 @@ import org.springframework.util.StringUtils;
  * (which inherit from it). Can alternatively also be used as a nested
  * helper to delegate to.
  *
+ * 对SingletonBeanRegistry 的各函数实现
  * @author Juergen Hoeller
  * @since 2.0
  * @see #registerSingleton
@@ -320,6 +321,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	}
 
 	/**
+	 * 返回指定的singleton bean当前是否正在创建中
 	 * Return whether the specified singleton bean is currently in creation
 	 * (within the entire factory).
 	 * @param beanName the name of the bean

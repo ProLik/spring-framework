@@ -109,6 +109,10 @@ class GroovyBeanDefinitionWrapper extends GroovyObjectSupport {
 		return this.definition;
 	}
 
+	/**
+	 * 创建承载属性的实例----解析属性
+	 * @return
+	 */
 	protected AbstractBeanDefinition createBeanDefinition() {
 		AbstractBeanDefinition bd = new GenericBeanDefinition();
 		bd.setBeanClass(this.clazz);

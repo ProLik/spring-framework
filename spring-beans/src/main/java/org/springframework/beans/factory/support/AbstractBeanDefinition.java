@@ -140,6 +140,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	@Nullable
 	private volatile Object beanClass;
 
+	//bean 作用范围
 	@Nullable
 	private String scope = SCOPE_DEFAULT;
 
@@ -157,15 +158,19 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	private boolean autowireCandidate = true;
 
+	//自动装配，当出现多个bean候选者时，将作为首选者，对应bean属性
 	private boolean primary = false;
 
+	//用于记录	qualifiers 对应子元素 qualifier
 	private final Map<String, AutowireCandidateQualifier> qualifiers = new LinkedHashMap<>();
 
 	@Nullable
 	private Supplier<?> instanceSupplier;
 
+	//允许访问非公开的构造器和方法，程序设置
 	private boolean nonPublicAccessAllowed = true;
 
+	//是否以一种宽松的模式解析构造函数，默认true
 	private boolean lenientConstructorResolution = true;
 
 	@Nullable

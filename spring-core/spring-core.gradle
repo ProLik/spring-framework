@@ -92,6 +92,8 @@ dependencies {
 		exclude group: "stax", module: "stax-api"
 	}
 	testCompile(project(":spring-core-coroutines"))
+	//缺少 jar 包 cglib objenesis 重新打包
+	compile fileTree(dir: 'libs', include: '*.jar')
 }
 
 jar {

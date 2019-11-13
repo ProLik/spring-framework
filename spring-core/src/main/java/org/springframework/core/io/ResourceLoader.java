@@ -32,6 +32,7 @@ import org.springframework.util.ResourceUtils;
  * from Strings when running in an ApplicationContext, using the particular
  * context's resource loading strategy.
  *
+ * 定义资源加载器
  * @author Juergen Hoeller
  * @since 10.03.2004
  * @see Resource

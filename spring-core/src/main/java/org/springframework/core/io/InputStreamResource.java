@@ -33,6 +33,9 @@ import org.springframework.util.Assert;
  * {@link #isOpen()}. Do not use an {@code InputStreamResource} if you need to
  * keep the resource descriptor somewhere, or if you need to read from a stream
  * multiple times.
+ * 封装任何能返回InputStream的类，比如File、ClassPath下的资源和Byte Array等
+ *
+ * 定义资源的3种状态   存在性exists   可读性read   是否处于打开状态 isOpen
  *
  * @author Juergen Hoeller
  * @author Sam Brannen
