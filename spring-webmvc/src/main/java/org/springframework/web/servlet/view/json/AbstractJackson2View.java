@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -205,29 +206,30 @@ public abstract class AbstractJackson2View extends AbstractView {
 	 * @throws IOException if writing failed
 	 */
 	protected void writeContent(OutputStream stream, Object object) throws IOException {
-		JsonGenerator generator = this.objectMapper.getFactory().createGenerator(stream, this.encoding);
-		writePrefix(generator, object);
+		try (JsonGenerator generator = this.objectMapper.getFactory().createGenerator(stream, this.encoding)) {
+			writePrefix(generator, object);
 
-		Object value = object;
-		Class<?> serializationView = null;
-		FilterProvider filters = null;
+			Object value = object;
+			Class<?> serializationView = null;
+			FilterProvider filters = null;
 
-		if (value instanceof MappingJacksonValue) {
-			MappingJacksonValue container = (MappingJacksonValue) value;
-			value = container.getValue();
-			serializationView = container.getSerializationView();
-			filters = container.getFilters();
+			if (value instanceof MappingJacksonValue) {
+				MappingJacksonValue container = (MappingJacksonValue) value;
+				value = container.getValue();
+				serializationView = container.getSerializationView();
+				filters = container.getFilters();
+			}
+
+			ObjectWriter objectWriter = (serializationView != null ?
+					this.objectMapper.writerWithView(serializationView) : this.objectMapper.writer());
+			if (filters != null) {
+				objectWriter = objectWriter.with(filters);
+			}
+			objectWriter.writeValue(generator, value);
+
+			writeSuffix(generator, object);
+			generator.flush();
 		}
-
-		ObjectWriter objectWriter = (serializationView != null ?
-				this.objectMapper.writerWithView(serializationView) : this.objectMapper.writer());
-		if (filters != null) {
-			objectWriter = objectWriter.with(filters);
-		}
-		objectWriter.writeValue(generator, value);
-
-		writeSuffix(generator, object);
-		generator.flush();
 	}
 
 
